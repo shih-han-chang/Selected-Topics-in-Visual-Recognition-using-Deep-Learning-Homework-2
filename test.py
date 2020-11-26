@@ -7,9 +7,7 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import torchvision.transforms as transforms
 from torch.autograd import Variable
-#from data import VOC_ROOT, VOC_CLASSES as labelmap
 from PIL import Image
-#from data import VOCAnnotationTransform, VOCDetection, BaseTransform, VOC_CLASSES
 from data_ssd import BaseTransform
 import torch.utils.data as data
 from ssd import build_ssd
@@ -21,7 +19,7 @@ import time
 import collections
 
 parser = argparse.ArgumentParser(description='Single Shot MultiBox Detection')
-parser.add_argument('--trained_model', default='weights/ssd300_svhn.pth',
+parser.add_argument('--trained_model', default='weights/ssd300_IVS_ta_v2_voc_20000.pth',
                     type=str, help='Trained state_dict file path to open')
 parser.add_argument('--save_folder', default='eval/', type=str,
                     help='Dir to save results')
@@ -46,7 +44,6 @@ def test_net(save_folder, net, cuda, root, transform, thresh):
     filename = save_folder+'test1.txt'
     fileList = os.listdir(root)
     fileList.sort(key=lambda x:int(x[:-4]))
-    print(fileList)
     num_images = len(fileList)
     res = []
     for i in range(num_images):
@@ -76,8 +73,8 @@ def test_net(save_folder, net, cuda, root, transform, thresh):
             j = 0
             while detections[0, k, j, 0] >= 0.6:
                 pt = (detections[0, k, j, 1:]*scale).cpu().numpy()
-                coords.append([pt[1], pt[0], pt[3], pt[2]])
-                score.append(etections[0, k, j, 0])
+                coords.append([str(pt[1]), str(pt[0]), str(pt[3]), str(pt[2])])
+                score.append(str(detections[0, k, j, 0]))
                 label_name.append(str(k))
                 pred_num += 1
                 j += 1
