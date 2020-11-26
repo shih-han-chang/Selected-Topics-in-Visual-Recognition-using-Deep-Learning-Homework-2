@@ -41,7 +41,7 @@ if not os.path.exists(args.save_folder):
 
 def test_net(save_folder, net, cuda, root, transform, thresh):
     # dump predictions and assoc. ground truth to text file for now
-    filename = save_folder+'test1.txt'
+    filename = save_folder+'out.json'
     fileList = os.listdir(root)
     fileList.sort(key=lambda x:int(x[:-4]))
     num_images = len(fileList)
