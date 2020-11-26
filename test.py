@@ -71,7 +71,7 @@ def test_net(save_folder, net, cuda, root, transform, thresh):
         res_dict = collections.OrderedDict()
         for k in range(detections.size(1)):
             j = 0
-            while detections[0, k, j, 0] >= 0.6:
+            while detections[0, k, j, 0] >= 0.3:
                 pt = (detections[0, k, j, 1:]*scale).cpu().numpy()
                 coords.append([str(pt[1]), str(pt[0]), str(pt[3]), str(pt[2])])
                 score.append(str(detections[0, k, j, 0]))
