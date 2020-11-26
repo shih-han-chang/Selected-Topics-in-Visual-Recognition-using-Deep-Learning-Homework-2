@@ -9,7 +9,7 @@ The target of homework 2 is Street View House Numbers digit detector and the dat
   * The test data have 13,068 image. 
   
 ## Training SSD
-  * First download the fc-reduced VGG-16 PyTorch base network weights at weights dir
+  * First download the fc-reduced VGG-16 PyTorch base network weights at: https://s3.amazonaws.com/amdegroot-models/vgg16_reducedfc.pth
   * To train SSD using the train script simply specify the parameters listed in train.py as a flag or manually change them.  
     - python train.py
 ## Test SSD
