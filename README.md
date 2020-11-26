@@ -9,5 +9,5 @@ The target of homework 2 is Street View House Numbers digit detector and the dat
   * The test data have 13,068 image. 
   
 ## Description of code 
-  #1. SSD.py
+  # 1. SSD.py
   
