@@ -11,10 +11,10 @@ The target of homework 2 is Street View House Numbers digit detector and the dat
 ## Training SSD
   * First download the fc-reduced VGG-16 PyTorch base network weights at weights dir
   * To train SSD using the train script simply specify the parameters listed in train.py as a flag or manually change them.  
-    python train.py
+    - python train.py
 ## Test SSD
   * To evaluate a trained network:  
-    python test.py
+    - python test.py
   * Then, it will generate a.json file with test result
   
   
