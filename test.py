@@ -7,7 +7,9 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import torchvision.transforms as transforms
 from torch.autograd import Variable
+#from data import VOC_ROOT, VOC_CLASSES as labelmap
 from PIL import Image
+#from data import VOCAnnotationTransform, VOCDetection, BaseTransform, VOC_CLASSES
 from data_ssd import BaseTransform
 import torch.utils.data as data
 from ssd import build_ssd
@@ -19,7 +21,7 @@ import time
 import collections
 
 parser = argparse.ArgumentParser(description='Single Shot MultiBox Detection')
-parser.add_argument('--trained_model', default='weights/ssd300_IVS_ta_v2_voc_20000.pth',
+parser.add_argument('--trained_model', default='weights/ssd300_svhn_50000.pth',
                     type=str, help='Trained state_dict file path to open')
 parser.add_argument('--save_folder', default='eval/', type=str,
                     help='Dir to save results')
@@ -52,10 +54,6 @@ def test_net(save_folder, net, cuda, root, transform, thresh):
         x = torch.from_numpy(transform(img)[0]).permute(2, 0, 1)
         x = Variable(x.unsqueeze(0))
 
-        #with open(filename, mode='a') as f:
-        #    f.write('\nGROUND TRUTH FOR: '+fileList[i]+'\n')
-        #    for box in annotation:
-        #        f.write('label: '+' || '.join(str(b) for b in box)+'\n')
         if cuda:
             x = x.cuda()
 
@@ -71,16 +69,18 @@ def test_net(save_folder, net, cuda, root, transform, thresh):
         res_dict = collections.OrderedDict()
         for k in range(detections.size(1)):
             j = 0
-            while detections[0, k, j, 0] >= 0.3:
+            while detections[0, k, j, 0] >= 0.25:
                 pt = (detections[0, k, j, 1:]*scale).cpu().numpy()
-                coords.append([str(pt[1]), str(pt[0]), str(pt[3]), str(pt[2])])
-                score.append(str(detections[0, k, j, 0]))
+                coords.append([str(round(pt[1],1)), str(round(pt[0],1)), str(round(pt[3],1)), str(round(pt[2],1))])
+                s = (detections[0, k, j, 0]).cpu().numpy()
+                #print(s)
+                score.append(str(s))
                 label_name.append(str(k))
                 pred_num += 1
                 j += 1
-        res_dict['bbox'] = [coords]
-        res_dict['score'] = [score]
-        res_dict['label'] = [label_name]
+        res_dict['bbox'] = coords
+        res_dict['score'] = score
+        res_dict['label'] = label_name
         #res_dict = {'name':[fileList[i]],'bbox':coords,'score':[score],'label':[label_name]}
         res.append(res_dict)
         
